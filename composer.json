@@ -1,0 +1,21 @@
+{
+  "name": "rabbit/casbin",
+  "description": "rabbit casbin base on casbin/casbin",
+  "type": "library",
+  "require": {
+    "rabbit/framework": "dev-master",
+    "casbin/casbin": "^0.2.1"
+  },
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "albert",
+      "email": "63851587@qq.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "rabbit\\casbin\\": "src/"
+    }
+  }
+}
