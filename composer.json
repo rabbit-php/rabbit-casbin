@@ -4,7 +4,7 @@
   "type": "library",
   "require": {
     "rabbit/framework": "dev-master",
-    "casbin/casbin": "^0.2.1"
+    "casbin/casbin": "^2"
   },
   "license": "MIT",
   "authors": [
