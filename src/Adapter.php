@@ -10,6 +10,7 @@ namespace rabbit\casbin;
 
 
 use Casbin\Exceptions\CasbinException;
+use Casbin\Model\Model;
 use Casbin\Persist\Adapter as AdapterContract;
 use Casbin\Persist\AdapterHelper;
 use rabbit\casbin\Model\CasbinRule;
@@ -21,6 +22,7 @@ use rabbit\casbin\Model\CasbinRule;
 class Adapter implements AdapterContract
 {
     use AdapterHelper;
+
     /** @var CasbinRule */
     protected $casbinRule;
 
@@ -45,24 +47,22 @@ class Adapter implements AdapterContract
     }
 
     /**
-     * @param \Casbin\Model\Model $model
-     * @return mixed|void
+     * @param Model $model
      */
-    public function loadPolicy($model)
+    public function loadPolicy(Model $model): void
     {
-        $ar = clone $this->casbinRule;
-        $rows = $ar->find()->all();
+        $ar = $this->casbinRule;
+        $rows = $ar::find()->asArray()->all();
         foreach ($rows as $row) {
-            $line = implode(', ', array_slice(array_values($row->toArray()), 1));
+            $line = implode(', ', array_slice(array_values($row), 1));
             $this->loadPolicyLine(trim($line), $model);
         }
     }
 
     /**
-     * @param \Casbin\Model\Model $model
-     * @return bool
+     * @param Model $model
      */
-    public function savePolicy($model)
+    public function savePolicy(Model $model): void
     {
         foreach ($model->model['p'] as $ptype => $ast) {
             foreach ($ast->policy as $rule) {
@@ -74,44 +74,40 @@ class Adapter implements AdapterContract
                 $this->savePolicyLine($ptype, $rule);
             }
         }
-        return true;
     }
 
     /**
      * @param string $sec
      * @param string $ptype
      * @param array $rule
-     * @return mixed|void
      */
-    public function addPolicy($sec, $ptype, $rule)
+    public function addPolicy(string $sec, string $ptype, array $rule): void
     {
-        return $this->savePolicyLine($ptype, $rule);
+        $this->savePolicyLine($ptype, $rule);
     }
 
     /**
      * @param string $sec
      * @param string $ptype
      * @param array $rule
-     * @return mixed
      */
-    public function removePolicy($sec, $ptype, $rule)
+    public function removePolicy(string $sec, string $ptype, array $rule): void
     {
         $result = $this->casbinRule->where('ptype', $ptype);
         foreach ($rule as $key => $value) {
             $result->where('v' . strval($key), $value);
         }
-        return $result->delete();
+        $result->delete();
     }
 
     /**
      * @param string $sec
      * @param string $ptype
      * @param int $fieldIndex
-     * @param mixed ...$fieldValues
-     * @return mixed|void
+     * @param string ...$fieldValues
      * @throws CasbinException
      */
-    public function removeFilteredPolicy($sec, $ptype, $fieldIndex, ...$fieldValues)
+    public function removeFilteredPolicy(string $sec, string $ptype, int $fieldIndex, string ...$fieldValues): void
     {
         throw new CasbinException('not implemented');
     }

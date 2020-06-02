@@ -33,29 +33,23 @@ class Logger implements LoggerContract
      *
      * @param bool $enable
      */
-    public function enableLog($enable)
+    public function enableLog(bool $enable): void
     {
         $this->enable = $enable;
     }
 
     /**
-     * returns if logger is enabled.
-     *
      * @return bool
      */
-    public function isEnabled()
+    public function isEnabled(): bool
     {
         return $this->enable;
     }
 
     /**
-     * formats using the default formats for its operands and logs the message.
-     *
      * @param mixed ...$v
-     *
-     * @return mixed
      */
-    public function write(...$v)
+    public function write(...$v): void
     {
         if (!$this->enable) {
             return;
@@ -71,14 +65,10 @@ class Logger implements LoggerContract
     }
 
     /**
-     * formats according to a format specifier and logs the message.
-     *
-     * @param $format
+     * @param string $format
      * @param mixed ...$v
-     *
-     * @return mixed
      */
-    public function writef($format, ...$v)
+    public function writef(string $format, ...$v): void
     {
         if (!$this->enable) {
             return;
