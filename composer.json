@@ -3,7 +3,7 @@
   "description": "rabbit casbin base on casbin/casbin",
   "type": "library",
   "require": {
-    "rabbit/framework": "dev-master",
+    "rabbit/framework": "^1.0",
     "casbin/casbin": "^2"
   },
   "license": "MIT",
