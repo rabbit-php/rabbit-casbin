@@ -1,12 +1,7 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Administrator
- * Date: 2019/3/16
- * Time: 18:47
- */
+declare(strict_types=1);
 
-namespace rabbit\casbin;
+namespace Rabbit\Casbin;
 
 use Casbin\Log\Logger as LoggerContract;
 use Psr\Log\LoggerInterface;
@@ -17,7 +12,7 @@ use Psr\Log\LoggerInterface;
  */
 class Logger implements LoggerContract
 {
-    public $enable = false;
+    public bool $enable = false;
     /**
      * @var LoggerInterface
      */
