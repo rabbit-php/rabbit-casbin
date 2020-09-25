@@ -1,13 +1,14 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Rabbit\Casbin;
 
-use Casbin\Enforcer;
-use Casbin\Exceptions\CasbinException;
 use Casbin\Log\Log;
+use Casbin\Enforcer;
+use Casbin\Log\Logger;
 use Casbin\Model\Model;
-use Symfony\Component\Cache\Adapter\AdapterInterface;
+use Casbin\Persist\Adapter;
 
 /**
  * Class Casbin
@@ -15,20 +16,16 @@ use Symfony\Component\Cache\Adapter\AdapterInterface;
  */
 class Casbin
 {
-    /** @var Enforcer */
     private ?Enforcer $enforcer = null;
-    /** @var AdapterInterface */
-    private ?AdapterInterface $adapter = null;
-    /** @var Model */
+    private ?Adapter $adapter = null;
     private ?Model $model = null;
-    /** @var array */
     private array $config;
 
     /**
      * @param \Casbin\Log\Logger $logger
      * @param array $config
      */
-    public function __construct(\Casbin\Log\Logger $logger, array $config = [])
+    public function __construct(Logger $logger, array $config = [])
     {
         $this->config = $config;
         Log::setLogger($logger);
@@ -49,9 +46,7 @@ class Casbin
     public function enforcer($newInstance = false): Enforcer
     {
         if ($newInstance || is_null($this->enforcer)) {
-            sycn(function () {
-                $this->enforcer = new Enforcer($this->model, $this->adapter);
-            });
+            sync(fn () => $this->enforcer = new Enforcer($this->model, $this->adapter));
         }
         return $this->enforcer;
     }
