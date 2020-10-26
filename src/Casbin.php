@@ -20,6 +20,7 @@ class Casbin
     private ?Adapter $adapter = null;
     private ?Model $model = null;
     private array $config;
+    private int $inited = 0;
 
     /**
      * @param \Casbin\Log\Logger $logger
@@ -40,13 +41,14 @@ class Casbin
     }
 
     /**
-     * @param bool $newInstance
-     * @return Enforcer
+     * @Author Albert 63851587@qq.com
+     * @DateTime 2020-10-26
+     * @return \Casbin\Enforcer
      */
-    public function enforcer($newInstance = false): Enforcer
+    public function enforcer(): Enforcer
     {
-        if ($newInstance || is_null($this->enforcer)) {
-            sync(fn () => $this->enforcer = new Enforcer($this->model, $this->adapter));
+        if ($this->enforcer === null) {
+            sync($this->inited, fn () => $this->enforcer = new Enforcer($this->model, $this->adapter));
         }
         return $this->enforcer;
     }
