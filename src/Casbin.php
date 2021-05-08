@@ -48,7 +48,7 @@ class Casbin
     public function enforcer(): Enforcer
     {
         if ($this->enforcer === null) {
-            sync($this->inited, fn () => $this->enforcer = new Enforcer($this->model, $this->adapter));
+            sync('casbin', fn () => $this->enforcer = new Enforcer($this->model, $this->adapter));
         }
         return $this->enforcer;
     }
