@@ -20,7 +20,6 @@ class Casbin
     private ?Adapter $adapter = null;
     private ?Model $model = null;
     private array $config;
-    private int $inited = 0;
 
     /**
      * @param \Casbin\Log\Logger $logger
