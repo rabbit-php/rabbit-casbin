@@ -19,24 +19,14 @@ class Casbin
     private ?Enforcer $enforcer = null;
     private ?Adapter $adapter = null;
     private ?Model $model = null;
-    private array $config;
 
     /**
      * @param \Casbin\Log\Logger $logger
      * @param array $config
      */
-    public function __construct(Logger $logger, array $config = [])
+    public function __construct(Logger $logger,public readonly array $config = [])
     {
-        $this->config = $config;
         Log::setLogger($logger);
-    }
-
-    /**
-     * @return array
-     */
-    public function getConfig(): array
-    {
-        return $this->config;
     }
 
     /**
