@@ -24,7 +24,7 @@ class Casbin
      * @param \Casbin\Log\Logger $logger
      * @param array $config
      */
-    public function __construct(Logger $logger,public readonly array $config = [])
+    public function __construct(Logger $logger, public readonly array $config = [])
     {
         Log::setLogger($logger);
     }
@@ -37,7 +37,7 @@ class Casbin
     public function enforcer(): Enforcer
     {
         if ($this->enforcer === null) {
-            sync('casbin', fn () => $this->enforcer = new Enforcer($this->model, $this->adapter));
+            sync('casbin', fn (): Enforcer => $this->enforcer = new Enforcer($this->model, $this->adapter));
         }
         return $this->enforcer;
     }
