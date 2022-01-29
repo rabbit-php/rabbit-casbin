@@ -20,7 +20,7 @@ class Logger implements LoggerContract
 
     public function __construct(LoggerInterface $logger = null)
     {
-        $this->logger = $logger ?? getDI('logger');
+        $this->logger = $logger ?? service('logger');
     }
 
     /**
